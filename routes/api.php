@@ -25,10 +25,6 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::prefix('v1')->group(function () {
-    require base_path('routes/api_v1.php');
-});
-
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

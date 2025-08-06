@@ -2,10 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\Ticket;
+use App\Policies\V1\TicketPolicy;
+use Illuminate\Support\Facades\Gate;
+
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+
+    protected $policies = [
+        Ticket::class => TicketPolicy::class,
+    ];
     /**
      * Register any application services.
      */
@@ -19,6 +27,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Gate::guessPolicyNamesUsing(function (string $modelClass) {
+            $version = request()->segment(2) ?? 'V1'; // e.g., api/v1/...
+            $policyClass = "App\\Policies\\$version\\" . class_basename($modelClass) . 'Policy';
+        
+            return class_exists($policyClass) ? $policyClass : null;
+        });
     }
 }
