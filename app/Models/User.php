@@ -5,7 +5,6 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 
 use App\Http\Filters\V1\QueryFilter;
-
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -26,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_manager'
     ];
 
     /**
@@ -46,10 +46,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'is_manager' => 'boolean'
     ];
 
-
-    public function tickets() :HasMany {
+    public function tickets() : HasMany {
         return $this->hasMany(Ticket::class);
     }
 

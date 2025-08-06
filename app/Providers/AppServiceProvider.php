@@ -30,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::guessPolicyNamesUsing(function (string $modelClass) {
             $version = request()->segment(2) ?? 'V1'; // e.g., api/v1/...
             $policyClass = "App\\Policies\\$version\\" . class_basename($modelClass) . 'Policy';
-        
+         
             return class_exists($policyClass) ? $policyClass : null;
         });
     }
